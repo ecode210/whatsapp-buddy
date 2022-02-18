@@ -3,6 +3,8 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:whatsapp_call/view/crm_screen.dart';
+import 'package:whatsapp_call/viewmodel/custom_page_builder.dart';
 import 'package:whatsapp_call/viewmodel/whatsapp_buddy.dart';
 
 class Home extends StatefulWidget {
@@ -68,8 +70,7 @@ class _HomeState extends State<Home> {
                       const Spacer(),
                       BouncingWidget(
                         onPressed: () {
-                          Provider.of<Buddy>(context, listen: false)
-                              .pickContact();
+                          Provider.of<Buddy>(context, listen: false).pickContact();
                         },
                         scaleFactor: 0.2,
                         child: Consumer<Buddy>(
@@ -92,8 +93,7 @@ class _HomeState extends State<Home> {
                               alignment: Alignment.center,
                               child: buddy.contact == null
                                   ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         FaIcon(
                                           FontAwesomeIcons.phoneAlt,
@@ -105,9 +105,7 @@ class _HomeState extends State<Home> {
                                           """
 Phone
 Number""",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline2,
+                                          style: Theme.of(context).textTheme.headline2,
                                         ),
                                       ],
                                     )
@@ -120,9 +118,7 @@ Number""",
 ${buddy.name}
 ${buddy.phone}""",
                                           textAlign: TextAlign.center,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline2,
+                                          style: Theme.of(context).textTheme.headline2,
                                         ),
                                       ),
                                     ),
@@ -133,8 +129,7 @@ ${buddy.phone}""",
                       SizedBox(height: size.height * 0.02),
                       CountryCodePicker(
                         onChanged: (value) {
-                          Provider.of<Buddy>(context, listen: false)
-                              .countryCode = value.toString();
+                          Provider.of<Buddy>(context, listen: false).countryCode = value.toString();
                         },
                         initialSelection: 'US',
                         favorite: const ['+1', '+234', '+91'],
@@ -150,8 +145,7 @@ ${buddy.phone}""",
                       SizedBox(height: size.height * 0.02),
                       BouncingWidget(
                         onPressed: () {
-                          Provider.of<Buddy>(context, listen: false)
-                              .launchURL();
+                          Provider.of<Buddy>(context, listen: false).launchURL();
                         },
                         scaleFactor: 0.2,
                         child: Consumer<Buddy>(
@@ -161,15 +155,13 @@ ${buddy.phone}""",
                               height: size.height * 0.17,
                               width: size.width * 0.6,
                               decoration: BoxDecoration(
-                                color: buddy.name == null &&
-                                        buddy.countryCode == null
+                                color: buddy.name == null && buddy.countryCode == null
                                     ? Colors.green.shade200
                                     : Colors.green.shade800,
                                 borderRadius: BorderRadius.circular(100),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: buddy.name == null &&
-                                            buddy.countryCode == null
+                                    color: buddy.name == null && buddy.countryCode == null
                                         ? Colors.green.shade100
                                         : Colors.green.withOpacity(0.4),
                                     blurRadius: 15,
@@ -192,8 +184,7 @@ ${buddy.phone}""",
                                     """
 WhatsApp
 Number""",
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
+                                    style: Theme.of(context).textTheme.headline2,
                                   ),
                                 ],
                               ),
@@ -218,6 +209,7 @@ Number""",
                         size,
                         FontAwesomeIcons.briefcase,
                         "CRM",
+                        const CRMScreen(),
                       ),
                     ),
                     Expanded(
@@ -225,6 +217,7 @@ Number""",
                         size,
                         FontAwesomeIcons.questionCircle,
                         "FAQ",
+                        const CRMScreen(),
                       ),
                     ),
                     Expanded(
@@ -232,6 +225,7 @@ Number""",
                         size,
                         FontAwesomeIcons.phoneSquareAlt,
                         "CONTACT",
+                        const CRMScreen(),
                       ),
                     ),
                   ],
@@ -244,9 +238,17 @@ Number""",
     );
   }
 
-  Widget buildButton(var size, IconData icon, String title) {
+  Widget buildButton(var size, IconData icon, String title, Widget child) {
     return BouncingWidget(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          CustomPageRoute(
+            child: child,
+            direction: AxisDirection.left,
+          ),
+        );
+      },
       scaleFactor: 0.4,
       child: SizedBox(
         height: double.infinity,
@@ -256,7 +258,7 @@ Number""",
           children: [
             FaIcon(
               icon,
-              size: 20,
+              size: size.width * 0.06,
               color: Colors.white,
             ),
             const SizedBox(height: 2),

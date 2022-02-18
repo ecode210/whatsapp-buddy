@@ -1,11 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:whatsapp_call/view/home.dart';
+import 'package:whatsapp_call/viewmodel/crm.dart';
 import 'package:whatsapp_call/viewmodel/whatsapp_buddy.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.green.shade800,
@@ -27,6 +35,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider.value(
           value: Buddy(),
+        ),
+        ChangeNotifierProvider.value(
+          value: CRM(),
         ),
       ],
       builder: (context, child) {
