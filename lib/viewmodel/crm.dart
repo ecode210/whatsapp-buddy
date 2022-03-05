@@ -1,9 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class CRM extends ChangeNotifier {
+class CRM extends GetxController {
   bool loggedIn = false;
+
+  Rx<String> fullName = "".obs;
+  Rx<String> phoneNumber = "".obs;
+  Rx<String> email = "".obs;
+  Rx<String> address = "".obs;
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: ['email', 'profile', 'openid'],
@@ -15,7 +22,7 @@ class CRM extends ChangeNotifier {
     if (googleUser != null) {
       user = googleUser;
       loggedIn = true;
-      notifyListeners();
+      update();
     }
     final googleAuth = await googleUser!.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -29,6 +36,33 @@ class CRM extends ChangeNotifier {
     await googleSignIn.disconnect();
     user = null;
     FirebaseAuth.instance.signOut();
-    notifyListeners();
+    update();
+  }
+
+  final firestore = FirebaseFirestore.instance.collection("buddy");
+
+  void savedEvent(BuildContext context) async {
+    DocumentReference doc = firestore.doc(user!.id);
+    Map<String, dynamic> data = {
+      "id": user!.id,
+      "full name": fullName.value,
+      "phone number": phoneNumber.value,
+      "email": email.value,
+      "address": address.value,
+    };
+    await doc.set(data).whenComplete(() {
+      print("User leads added to the database");
+      Get.back();
+      Get.defaultDialog(
+        title: "NOTICE",
+        middleText: "Leads has been submitted",
+        contentPadding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+        titleStyle: Theme.of(context).textTheme.headline1,
+        middleTextStyle: Theme.of(context).textTheme.headline2!.copyWith(
+              color: Colors.grey.shade900,
+              fontSize: 15,
+            ),
+      );
+    }).catchError((e) => print("error!"));
   }
 }
