@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:whatsapp_call/controller/crm.dart';
 import 'package:whatsapp_call/model/leads.dart';
 import 'package:whatsapp_call/view/contact_lead.dart';
-import 'package:whatsapp_call/viewmodel/crm.dart';
 
 class ViewLead extends GetWidget<CRM> {
   const ViewLead({Key? key}) : super(key: key);

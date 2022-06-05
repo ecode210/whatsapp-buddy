@@ -1,10 +1,11 @@
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whatsapp_call/controller/buddy.dart';
 import 'package:whatsapp_call/controller/crm.dart';
 
-class EditLead extends GetWidget<CRM> {
-  EditLead({Key? key}) : super(key: key);
+class PickLead extends GetWidget<CRM> {
+  PickLead({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -51,7 +52,7 @@ class EditLead extends GetWidget<CRM> {
                             ),
                             const SizedBox(width: 20),
                             Text(
-                              "Enter Lead",
+                              "Pick Lead",
                               style: Theme.of(context).textTheme.headline1,
                             ),
                           ],
@@ -84,7 +85,7 @@ class EditLead extends GetWidget<CRM> {
                 child: BouncingWidget(
                   onPressed: () {
                     if (validateAndSave()) {
-                      controller.savedLeads(context, false);
+                      controller.savedThirdPartyLeads(context, true);
                       showGeneralDialog(
                         context: context,
                         transitionDuration: const Duration(milliseconds: 200),
@@ -159,7 +160,11 @@ class EditLead extends GetWidget<CRM> {
         ),
         TextFormField(
           keyboardType: title == "Phone Number" ? TextInputType.phone : TextInputType.text,
-          initialValue: title == "Email" ? controller.user!.email : null,
+          initialValue: title == "Full Name"
+              ? Get.find<Buddy>().name
+              : title == "Phone Number"
+                  ? Get.find<Buddy>().phone
+                  : null,
           cursorColor: Colors.green.shade800,
           cursorWidth: 2,
           cursorRadius: const Radius.circular(10),
@@ -190,7 +195,7 @@ class EditLead extends GetWidget<CRM> {
           validator: (value) {
             switch (title) {
               case "Full Name":
-                return errorMessage(value!.contains(" "), "Input valid Full Name");
+                return errorMessage(value!.length >= 3, "Input valid Full Name");
               case "Phone Number":
                 return errorMessage(value!.length >= 7, "Input valid Phone Number");
               case "Email":

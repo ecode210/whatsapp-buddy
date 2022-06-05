@@ -1,10 +1,9 @@
 import 'package:bouncing_widget/bouncing_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:whatsapp_call/viewmodel/buddy.dart';
-import 'package:whatsapp_call/viewmodel/crm.dart';
+import 'package:whatsapp_call/controller/buddy.dart';
+import 'package:whatsapp_call/controller/crm.dart';
 
 import '../model/leads.dart';
 

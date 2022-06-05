@@ -1,7 +1,9 @@
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whatsapp_call/controller/buddy.dart';
 import 'package:whatsapp_call/view/enter_lead.dart';
+import 'package:whatsapp_call/view/pick_lead.dart';
 import 'package:whatsapp_call/view/view_lead.dart';
 
 class CRMScreen extends StatelessWidget {
@@ -54,6 +56,39 @@ class CRMScreen extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+                if (Get.find<Buddy>().name != null)
+                  BouncingWidget(
+                    onPressed: () {
+                      Get.to(() => PickLead());
+                    },
+                    scaleFactor: 1,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.green.shade800,
+                      radius: size.width * 0.2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.contact_page_rounded,
+                            color: Colors.white,
+                            size: size.width * 0.1,
+                          ),
+                          const SizedBox(height: 5),
+                          SizedBox(
+                            width: size.width * 0.3,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                "Pick Lead",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                if (Get.find<Buddy>().name != null) SizedBox(height: size.height * 0.05),
                 BouncingWidget(
                   onPressed: () {
                     Get.to(() => EditLead());

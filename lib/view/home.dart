@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:whatsapp_call/controller/buddy.dart';
 import 'package:whatsapp_call/view/crm_screen.dart';
-import 'package:whatsapp_call/viewmodel/buddy.dart';
 
-import '../viewmodel/crm.dart';
+import '../controller/crm.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
